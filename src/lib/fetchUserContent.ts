@@ -1,26 +1,31 @@
 import { cloudinary } from './cloudinary';
 import type { PhotoData } from '@/types/image';
+import type {
+  CloudinarySearchResult,
+  CloudinaryResource,
+  VideoData,
+} from '@/types/cloudinary';
 
 // Fetch all uploaded content from Cloudinary
 export async function fetchAllUserContent(): Promise<{
   photos: PhotoData[];
-  videos: any[];
+  videos: VideoData[];
 }> {
   try {
     // Fetch all resources (both images and videos)
-    const result = await cloudinary.search
+    const result = (await cloudinary.search
       .expression('*') // Get all resources
       .sort_by([['created_at', 'desc']])
       .with_field('context')
       .with_field('tags')
       .with_field('resource_type')
       .max_results(100)
-      .execute();
+      .execute()) as CloudinarySearchResult;
 
     const photos: PhotoData[] = [];
-    const videos: any[] = [];
+    const videos: VideoData[] = [];
 
-    result.resources.forEach((resource: any) => {
+    result.resources.forEach((resource: CloudinaryResource) => {
       if (resource.resource_type === 'image') {
         photos.push({
           publicId: resource.public_id,
@@ -81,17 +86,19 @@ export async function fetchPhotosFromUserFolder(
   try {
     const expression = folder ? `folder:${folder}` : 'resource_type:image';
 
-    const result = await cloudinary.search
+    const result = (await cloudinary.search
       .expression(expression)
       .sort_by([['created_at', 'desc']])
       .with_field('context')
       .with_field('tags')
       .max_results(100)
-      .execute();
+      .execute()) as CloudinarySearchResult;
 
     return result.resources
-      .filter((resource: any) => resource.resource_type === 'image')
-      .map((resource: any) => ({
+      .filter(
+        (resource: CloudinaryResource) => resource.resource_type === 'image'
+      )
+      .map((resource: CloudinaryResource) => ({
         publicId: resource.public_id,
         title:
           resource.context?.custom?.title ||

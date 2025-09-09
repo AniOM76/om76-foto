@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import PhotoGallery from '@/components/gallery/PhotoGallery';
 import { createGalleryPhoto } from '@/lib/cloudinaryClient';
 import type { PhotoData, GalleryPhoto } from '@/types/image';
+import type { VideoData } from '@/types/cloudinary';
 
 export default function Home() {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
-  const [videos, setVideos] = useState<any[]>([]);
+  const [videos, setVideos] = useState<VideoData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

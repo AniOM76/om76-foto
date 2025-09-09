@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { env, validateEnv } from './env';
 import type { PhotoData, GalleryPhoto } from '@/types/image';
+import type { CloudinaryResource } from '@/types/cloudinary';
 
 // Validate environment and configure Cloudinary
 try {
@@ -100,15 +101,15 @@ export async function fetchPhotosFromFolder(
   folder: string
 ): Promise<PhotoData[]> {
   try {
-    const result = await cloudinary.search
+    const result = (await cloudinary.search
       .expression(`folder:${folder}`)
       .sort_by([['created_at', 'desc']])
       .with_field('context')
       .with_field('tags')
       .max_results(100)
-      .execute();
+      .execute()) as { resources: CloudinaryResource[] };
 
-    return result.resources.map((resource: any) => ({
+    return result.resources.map((resource: CloudinaryResource) => ({
       publicId: resource.public_id,
       title: resource.context?.custom?.title || resource.filename || 'Untitled',
       description: resource.context?.custom?.description,
