@@ -17,8 +17,6 @@ export async function fetchAllUserContent(): Promise<{
       .max_results(100)
       .execute();
 
-    console.log('Fetched resources:', result.resources);
-
     const photos: PhotoData[] = [];
     const videos: any[] = [];
 
@@ -26,32 +24,37 @@ export async function fetchAllUserContent(): Promise<{
       if (resource.resource_type === 'image') {
         photos.push({
           publicId: resource.public_id,
-          title: resource.context?.custom?.title || 
-                 resource.display_name || 
-                 resource.public_id.split('/').pop() || 
-                 'Untitled',
-          description: resource.context?.custom?.description || 
-                      `Uploaded on ${new Date(resource.created_at).toLocaleDateString()}`,
+          title:
+            resource.context?.custom?.title ||
+            resource.display_name ||
+            resource.public_id.split('/').pop() ||
+            'Untitled',
+          description:
+            resource.context?.custom?.description ||
+            `Uploaded on ${new Date(resource.created_at).toLocaleDateString()}`,
           category: resource.folder || 'portfolio',
           tags: resource.tags || [],
           width: resource.width,
           height: resource.height,
           aspectRatio: resource.width / resource.height,
           createdAt: resource.created_at,
-          alt: resource.context?.custom?.alt || 
-               resource.context?.custom?.title || 
-               resource.display_name || 
-               'User uploaded photo',
+          alt:
+            resource.context?.custom?.alt ||
+            resource.context?.custom?.title ||
+            resource.display_name ||
+            'User uploaded photo',
         });
       } else if (resource.resource_type === 'video') {
         videos.push({
           publicId: resource.public_id,
-          title: resource.context?.custom?.title || 
-                 resource.display_name || 
-                 resource.public_id.split('/').pop() || 
-                 'Untitled Video',
-          description: resource.context?.custom?.description || 
-                      `Video uploaded on ${new Date(resource.created_at).toLocaleDateString()}`,
+          title:
+            resource.context?.custom?.title ||
+            resource.display_name ||
+            resource.public_id.split('/').pop() ||
+            'Untitled Video',
+          description:
+            resource.context?.custom?.description ||
+            `Video uploaded on ${new Date(resource.created_at).toLocaleDateString()}`,
           category: resource.folder || 'portfolio',
           tags: resource.tags || [],
           width: resource.width,
@@ -72,10 +75,12 @@ export async function fetchAllUserContent(): Promise<{
 }
 
 // Fetch photos from a specific folder
-export async function fetchPhotosFromUserFolder(folder: string = ''): Promise<PhotoData[]> {
+export async function fetchPhotosFromUserFolder(
+  folder: string = ''
+): Promise<PhotoData[]> {
   try {
     const expression = folder ? `folder:${folder}` : 'resource_type:image';
-    
+
     const result = await cloudinary.search
       .expression(expression)
       .sort_by([['created_at', 'desc']])
@@ -88,22 +93,25 @@ export async function fetchPhotosFromUserFolder(folder: string = ''): Promise<Ph
       .filter((resource: any) => resource.resource_type === 'image')
       .map((resource: any) => ({
         publicId: resource.public_id,
-        title: resource.context?.custom?.title || 
-               resource.display_name || 
-               resource.public_id.split('/').pop() || 
-               'Untitled',
-        description: resource.context?.custom?.description || 
-                    `Uploaded on ${new Date(resource.created_at).toLocaleDateString()}`,
+        title:
+          resource.context?.custom?.title ||
+          resource.display_name ||
+          resource.public_id.split('/').pop() ||
+          'Untitled',
+        description:
+          resource.context?.custom?.description ||
+          `Uploaded on ${new Date(resource.created_at).toLocaleDateString()}`,
         category: resource.folder || 'portfolio',
         tags: resource.tags || [],
         width: resource.width,
         height: resource.height,
         aspectRatio: resource.width / resource.height,
         createdAt: resource.created_at,
-        alt: resource.context?.custom?.alt || 
-             resource.context?.custom?.title || 
-             resource.display_name || 
-             'User uploaded photo',
+        alt:
+          resource.context?.custom?.alt ||
+          resource.context?.custom?.title ||
+          resource.display_name ||
+          'User uploaded photo',
       }));
   } catch (error) {
     console.error('Error fetching photos from folder:', error);
