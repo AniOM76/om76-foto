@@ -64,7 +64,7 @@ export async function fetchAllUserContent(): Promise<{
           tags: resource.tags || [],
           width: resource.width,
           height: resource.height,
-          duration: resource.duration,
+          duration: resource.duration || 0,
           aspectRatio: resource.width / resource.height,
           createdAt: resource.created_at,
           format: resource.format,
