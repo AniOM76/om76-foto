@@ -1,5 +1,5 @@
 import type { PhotoData, GalleryPhoto } from '@/types/image';
-import { createGalleryPhoto } from './cloudinary';
+import { createGalleryPhoto } from './cloudinaryClient';
 
 // Sample photo data for testing (using Cloudinary's sample images)
 export const samplePhotos: PhotoData[] = [

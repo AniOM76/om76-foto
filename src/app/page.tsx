@@ -1,7 +1,55 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import PhotoGallery from '@/components/gallery/PhotoGallery';
+import { createGalleryPhoto } from '@/lib/cloudinaryClient';
 import { sampleGalleryPhotos } from '@/lib/sampleData';
+import type { PhotoData, GalleryPhoto } from '@/types/image';
 
 export default function Home() {
+  const [photos, setPhotos] = useState<GalleryPhoto[]>(sampleGalleryPhotos);
+  const [videos, setVideos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserPhotos = async () => {
+      try {
+        const response = await fetch('/api/photos');
+        const data = await response.json();
+        
+        if (data.error) {
+          console.error('API Error:', data.error);
+          setError('Failed to load photos from Cloudinary. Using sample photos.');
+          return;
+        }
+
+        console.log('Fetched content:', data);
+        
+        if (data.photos && data.photos.length > 0) {
+          const galleryPhotos = data.photos.map((photo: PhotoData) => 
+            createGalleryPhoto(photo)
+          );
+          setPhotos(galleryPhotos);
+          setError(null);
+        } else {
+          setError('No photos found in your Cloudinary account. Using sample photos.');
+        }
+        
+        if (data.videos) {
+          setVideos(data.videos);
+        }
+      } catch (err) {
+        console.error('Error fetching photos:', err);
+        setError('Failed to connect to Cloudinary. Using sample photos.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserPhotos();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -13,12 +61,48 @@ export default function Home() {
           <p className="mt-2 text-gray-600">
             A showcase of photography and visual storytelling
           </p>
+          
+          {/* Status indicator */}
+          <div className="mt-4">
+            {loading ? (
+              <div className="flex items-center text-sm text-gray-500">
+                <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2"></div>
+                Loading your photos from Cloudinary...
+              </div>
+            ) : error ? (
+              <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-md">
+                ⚠️ {error}
+              </div>
+            ) : (
+              <div className="text-sm text-green-600 bg-green-50 px-3 py-2 rounded-md">
+                ✅ Loaded {photos.length} photos{videos.length > 0 ? ` and ${videos.length} videos` : ''} from your Cloudinary account
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
       {/* Main Gallery */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <PhotoGallery photos={sampleGalleryPhotos} columns={4} gap={16} />
+        <PhotoGallery photos={photos} columns={4} gap={16} />
+        
+        {/* Videos section (if any) */}
+        {videos.length > 0 && (
+          <section className="mt-16">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Videos</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {videos.map((video) => (
+                <div key={video.publicId} className="bg-white rounded-lg shadow-md p-4">
+                  <h3 className="font-semibold text-lg mb-2">{video.title}</h3>
+                  <p className="text-gray-600 text-sm mb-2">{video.description}</p>
+                  <div className="text-xs text-gray-500">
+                    Duration: {Math.round(video.duration)}s | {video.width}×{video.height}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Footer */}
