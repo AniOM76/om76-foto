@@ -103,7 +103,7 @@ export async function fetchPhotosFromFolder(
   try {
     const result = (await cloudinary.search
       .expression(`folder:${folder}`)
-      .sort_by([['created_at', 'desc']])
+      .sort_by('created_at', 'desc')
       .with_field('context')
       .with_field('tags')
       .max_results(100)

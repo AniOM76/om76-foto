@@ -15,7 +15,7 @@ export async function fetchAllUserContent(): Promise<{
     // Fetch all resources (both images and videos)
     const result = (await cloudinary.search
       .expression('*') // Get all resources
-      .sort_by([['created_at', 'desc']])
+      .sort_by('created_at', 'desc')
       .with_field('context')
       .with_field('tags')
       .with_field('resource_type')
@@ -88,7 +88,7 @@ export async function fetchPhotosFromUserFolder(
 
     const result = (await cloudinary.search
       .expression(expression)
-      .sort_by([['created_at', 'desc']])
+      .sort_by('created_at', 'desc')
       .with_field('context')
       .with_field('tags')
       .max_results(100)
