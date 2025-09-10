@@ -1,9 +1,18 @@
 import { NextResponse } from 'next/server';
-import { fetchAllUserContent } from '@/lib/fetchUserContent';
+import { fetchAllUserContent, fetchContentByCategory } from '@/lib/fetchUserContent';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const content = await fetchAllUserContent();
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+
+    let content;
+    if (category) {
+      content = await fetchContentByCategory(category);
+    } else {
+      content = await fetchAllUserContent();
+    }
+
     return NextResponse.json(content);
   } catch (error) {
     console.error('API Error:', error);
