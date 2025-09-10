@@ -14,7 +14,7 @@ export async function fetchAllUserContent(): Promise<{
   try {
     // Fetch all resources (both images and videos)
     const result = (await cloudinary.search
-      .expression('*') // Get all resources
+      .expression('resource_type:image OR resource_type:video') // Get images and videos
       .sort_by('created_at', 'desc')
       .with_field('context')
       .with_field('tags')
