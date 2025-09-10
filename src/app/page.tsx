@@ -21,7 +21,7 @@ export default function Home() {
         if (data.error) {
           console.error('API Error:', data.error);
           setError(
-            'Failed to load photos. Please check your connection.'
+            'Failed to load photos from Cloudinary. Please check your connection.'
           );
           return;
         }
@@ -33,7 +33,7 @@ export default function Home() {
           setPhotos(galleryPhotos);
           setError(null);
         } else {
-          setError('No photos found.');
+          setError('No photos found in your Cloudinary account.');
         }
 
         if (data.videos) {
@@ -42,7 +42,7 @@ export default function Home() {
       } catch (err) {
         console.error('Error fetching photos:', err);
         setError(
-          'Failed to connect to photo service. Please check your connection.'
+          'Failed to connect to Cloudinary. Please check your connection.'
         );
       } finally {
         setLoading(false);
@@ -69,7 +69,7 @@ export default function Home() {
             {loading ? (
               <div className="flex items-center text-sm text-gray-500">
                 <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2"></div>
-                Loading your photos...
+                Loading your photos from Cloudinary...
               </div>
             ) : error ? (
               <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-md">
@@ -78,7 +78,8 @@ export default function Home() {
             ) : (
               <div className="text-sm text-green-600 bg-green-50 px-3 py-2 rounded-md">
                 ✅ Loaded {photos.length} photos
-                {videos.length > 0 ? ` and ${videos.length} videos` : ''} (using mock data for testing)
+                {videos.length > 0 ? ` and ${videos.length} videos` : ''} from
+                your Cloudinary account
               </div>
             )}
           </div>

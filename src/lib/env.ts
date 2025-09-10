@@ -2,7 +2,9 @@
 
 export const env = {
   cloudinary: {
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME!,
+    // Client-side accessible
+    cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!,
+    // Server-side only
     apiKey: process.env.CLOUDINARY_API_KEY!,
     apiSecret: process.env.CLOUDINARY_API_SECRET!,
   },
