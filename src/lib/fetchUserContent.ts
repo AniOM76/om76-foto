@@ -18,7 +18,6 @@ export async function fetchAllUserContent(): Promise<{
       .sort_by('created_at', 'desc')
       .with_field('context')
       .with_field('tags')
-      .with_field('resource_type')
       .max_results(100)
       .execute()) as CloudinarySearchResult;
 
