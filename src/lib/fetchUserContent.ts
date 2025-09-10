@@ -90,7 +90,7 @@ export async function fetchContentByCategory(category: string): Promise<{
     
     // Gallery uses tag-based filtering, others use folder-based
     if (category === 'gallery') {
-      expression = 'tags:gallery-featured';
+      expression = 'tags:Gallery';
     } else {
       // Map URL-friendly names to folder names
       const folderMap: { [key: string]: string } = {
