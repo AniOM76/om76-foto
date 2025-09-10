@@ -13,7 +13,7 @@ export default function PasswordModal({ isOpen, onSuccess }: PasswordModalProps)
   const [isLoading, setIsLoading] = useState(false);
 
   // You can change this code - consider moving to environment variable later
-  const CORRECT_PASSWORD = 'OM76portfolio2025';
+  const CORRECT_PASSWORD = '2025';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

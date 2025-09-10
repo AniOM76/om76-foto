@@ -8,16 +8,16 @@ import type { PhotoData, GalleryPhoto } from '@/types/image';
 import type { VideoData } from '@/types/cloudinary';
 
 interface GalleryPageProps {
-  title: string;
-  description: string;
   category?: string; // undefined for Gallery (shows gallery-featured), otherwise folder name
 }
 
-export default function GalleryPage({ title, description, category }: GalleryPageProps) {
+export default function GalleryPage({ category }: GalleryPageProps) {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [videos, setVideos] = useState<VideoData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+  // Remove unused variables for now since we removed the header
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -31,7 +31,6 @@ export default function GalleryPage({ title, description, category }: GalleryPag
 
         if (data.error) {
           console.error('API Error:', data.error);
-          setError('Failed to load content. Please check your connection.');
           return;
         }
 
@@ -40,9 +39,6 @@ export default function GalleryPage({ title, description, category }: GalleryPag
             createGalleryPhoto(photo)
           );
           setPhotos(galleryPhotos);
-          setError(null);
-        } else {
-          setError(`No photos found in ${title.toLowerCase()}.`);
         }
 
         if (data.videos) {
@@ -50,14 +46,11 @@ export default function GalleryPage({ title, description, category }: GalleryPag
         }
       } catch (err) {
         console.error('Error fetching content:', err);
-        setError('Failed to connect to content service. Please check your connection.');
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchContent();
-  }, [category, title]);
+  }, [category]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -65,33 +58,6 @@ export default function GalleryPage({ title, description, category }: GalleryPag
       
       {/* Main content area with sidebar offset */}
       <div className="lg:pl-64">
-        {/* Header */}
-        <header className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:pl-4">
-            <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-            <p className="mt-2 text-gray-600">{description}</p>
-
-            {/* Status indicator */}
-            <div className="mt-4">
-              {loading ? (
-                <div className="flex items-center text-sm text-gray-500">
-                  <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2"></div>
-                  Loading content...
-                </div>
-              ) : error ? (
-                <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-md">
-                  ⚠️ {error}
-                </div>
-              ) : (
-                <div className="text-sm text-green-600 bg-green-50 px-3 py-2 rounded-md">
-                  ✅ Loaded {photos.length} photos
-                  {videos.length > 0 ? ` and ${videos.length} videos` : ''}
-                </div>
-              )}
-            </div>
-          </div>
-        </header>
-
         {/* Main Gallery */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:pl-4">
         <PhotoGallery photos={photos} columns={4} gap={16} />
