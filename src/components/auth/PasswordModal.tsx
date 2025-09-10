@@ -46,24 +46,18 @@ export default function PasswordModal({ isOpen, onSuccess }: PasswordModalProps)
       <div className="relative bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            OM76 Photography
+            Welcome To OM76 Photography
           </h2>
-          <p className="text-gray-600">
-            Please enter the access code to view the portfolio
-          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="password" className="sr-only">
-              Access Code
-            </label>
             <input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter access code"
+              placeholder=""
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-center text-lg tracking-wider"
               disabled={isLoading}
               autoFocus
@@ -87,14 +81,11 @@ export default function PasswordModal({ isOpen, onSuccess }: PasswordModalProps)
                 Verifying...
               </div>
             ) : (
-              'Enter Portfolio'
+              'Enter'
             )}
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-gray-500">
-          This portfolio is password protected for privacy
-        </div>
       </div>
     </div>
   );
