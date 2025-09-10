@@ -51,7 +51,7 @@ export default function Navigation() {
                 className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
                 onClick={() => setSidebarOpen(false)}
               >
-                OM76 Photography
+600D Photography
               </Link>
               
               {/* Close button for mobile */}
@@ -83,7 +83,7 @@ export default function Navigation() {
           {/* Footer */}
           <div className="p-4 border-t border-gray-200">
             <p className="text-xs text-gray-500 text-center">
-              © 2024 OM76 Photography
+              © 2024 600D Photography
             </p>
           </div>
         </div>

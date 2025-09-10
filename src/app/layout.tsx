@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'OM76 Photography Portfolio',
-  description: 'Professional photography portfolio by OM76',
+  title: '600D Photography Portfolio',
+  description: 'Professional photography portfolio by 600D Photography',
 };
 
 export default function RootLayout({

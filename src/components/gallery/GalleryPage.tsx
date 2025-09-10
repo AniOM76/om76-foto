@@ -143,7 +143,7 @@ export default function GalleryPage({ title, description, category }: GalleryPag
         <footer className="bg-white border-t mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:pl-4">
             <p className="text-center text-gray-500 text-sm">
-              © 2024 OM76 Photography. All rights reserved.
+              © 2024 600D Photography. All rights reserved.
             </p>
           </div>
         </footer>

@@ -46,7 +46,7 @@ export default function PasswordModal({ isOpen, onSuccess }: PasswordModalProps)
       <div className="relative bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Welcome To OM76 Photography
+            Welcome To 600D Photography
           </h2>
         </div>
 
