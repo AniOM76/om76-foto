@@ -21,17 +21,6 @@ export async function fetchAllUserContent(): Promise<{
       .max_results(100)
       .execute()) as CloudinarySearchResult;
 
-    // Debug logging to see what we get back
-    console.log('Cloudinary API Response:', {
-      total_count: result.total_count,
-      resources_length: result.resources?.length || 0,
-      first_few_resources: result.resources?.slice(0, 3).map(r => ({
-        public_id: r.public_id,
-        resource_type: r.resource_type,
-        format: r.format,
-        created_at: r.created_at
-      }))
-    });
 
     const photos: PhotoData[] = [];
     const videos: VideoData[] = [];
@@ -83,11 +72,6 @@ export async function fetchAllUserContent(): Promise<{
       }
     });
 
-    console.log('Final result:', {
-      photos_count: photos.length,
-      videos_count: videos.length,
-      photo_ids: photos.map(p => p.publicId).slice(0, 5)
-    });
 
     return { photos, videos };
   } catch (error) {

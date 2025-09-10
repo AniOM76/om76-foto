@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import PhotoGallery from '@/components/gallery/PhotoGallery';
-import { createGalleryPhoto } from '@/lib/cloudinaryClient';
+import { createGalleryPhoto, buildVideoUrl } from '@/lib/cloudinaryClient';
 import type { PhotoData, GalleryPhoto } from '@/types/image';
 import type { VideoData } from '@/types/cloudinary';
 
@@ -98,15 +98,33 @@ export default function Home() {
               {videos.map((video) => (
                 <div
                   key={video.publicId}
-                  className="bg-white rounded-lg shadow-md p-4"
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
                 >
-                  <h3 className="font-semibold text-lg mb-2">{video.title}</h3>
-                  <p className="text-gray-600 text-sm mb-2">
-                    {video.description}
-                  </p>
-                  <div className="text-xs text-gray-500">
-                    Duration: {Math.round(video.duration)}s | {video.width}×
-                    {video.height}
+                  <video
+                    className="w-full h-48 object-cover"
+                    controls
+                    preload="metadata"
+                    poster={`https://res.cloudinary.com/dour8cpte/image/upload/w_400,h_300,c_fill,f_jpg/v1/${video.publicId}.jpg`}
+                  >
+                    <source
+                      src={buildVideoUrl(video.publicId, { 
+                        width: 800, 
+                        quality: 'auto', 
+                        format: 'mp4' 
+                      })}
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg mb-2">{video.title}</h3>
+                    <p className="text-gray-600 text-sm mb-2">
+                      {video.description}
+                    </p>
+                    <div className="text-xs text-gray-500">
+                      Duration: {Math.round(video.duration)}s | {video.width}×
+                      {video.height}
+                    </div>
                   </div>
                 </div>
               ))}

@@ -37,6 +37,30 @@ export function buildImageUrl(
   return `https://res.cloudinary.com/${env.cloudinary.cloudName}/image/upload/${transformations.join(',')}/v1/${publicId}`;
 }
 
+// Video URL builder
+export function buildVideoUrl(
+  publicId: string,
+  options: Omit<ImageTransformOptions, 'format'> & { format?: 'auto' | 'mp4' | 'webm' } = {}
+): string {
+  const {
+    width,
+    height,
+    quality = 'auto',
+    format = 'auto',
+    crop = 'fill',
+  } = options;
+
+  const transformations = [
+    quality && `q_${quality}`,
+    format && `f_${format}`,
+    width && `w_${width}`,
+    height && `h_${height}`,
+    crop && `c_${crop}`,
+  ].filter(Boolean);
+
+  return `https://res.cloudinary.com/${env.cloudinary.cloudName}/video/upload/${transformations.join(',')}/v1/${publicId}`;
+}
+
 // Gallery-specific image transformations
 export const galleryTransforms = {
   thumbnail: (publicId: string) =>
