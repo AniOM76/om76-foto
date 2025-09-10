@@ -63,35 +63,37 @@ export default function GalleryPage({ title, description, category }: GalleryPag
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-          <p className="mt-2 text-gray-600">{description}</p>
+      {/* Main content area with sidebar offset */}
+      <div className="lg:pl-64">
+        {/* Header */}
+        <header className="bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:pl-4">
+            <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
+            <p className="mt-2 text-gray-600">{description}</p>
 
-          {/* Status indicator */}
-          <div className="mt-4">
-            {loading ? (
-              <div className="flex items-center text-sm text-gray-500">
-                <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2"></div>
-                Loading content...
-              </div>
-            ) : error ? (
-              <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-md">
-                ⚠️ {error}
-              </div>
-            ) : (
-              <div className="text-sm text-green-600 bg-green-50 px-3 py-2 rounded-md">
-                ✅ Loaded {photos.length} photos
-                {videos.length > 0 ? ` and ${videos.length} videos` : ''}
-              </div>
-            )}
+            {/* Status indicator */}
+            <div className="mt-4">
+              {loading ? (
+                <div className="flex items-center text-sm text-gray-500">
+                  <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2"></div>
+                  Loading content...
+                </div>
+              ) : error ? (
+                <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-md">
+                  ⚠️ {error}
+                </div>
+              ) : (
+                <div className="text-sm text-green-600 bg-green-50 px-3 py-2 rounded-md">
+                  ✅ Loaded {photos.length} photos
+                  {videos.length > 0 ? ` and ${videos.length} videos` : ''}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Gallery */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Main Gallery */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:pl-4">
         <PhotoGallery photos={photos} columns={4} gap={16} />
 
         {/* Videos section (if any) */}
@@ -135,16 +137,17 @@ export default function GalleryPage({ title, description, category }: GalleryPag
             </div>
           </section>
         )}
-      </main>
+        </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-center text-gray-500 text-sm">
-            © 2024 OM76 Photography. All rights reserved.
-          </p>
-        </div>
-      </footer>
+        {/* Footer */}
+        <footer className="bg-white border-t mt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:pl-4">
+            <p className="text-center text-gray-500 text-sm">
+              © 2024 OM76 Photography. All rights reserved.
+            </p>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }

@@ -13,99 +13,106 @@ const navigationItems = [
 ];
 
 export default function Navigation() {
-  const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo/Brand */}
-          <Link 
-            href="/" 
-            className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
-          >
-            OM76 Photography
-          </Link>
+    <>
+      {/* Mobile menu button */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="p-2 bg-white rounded-md shadow-md text-gray-600 hover:text-gray-900 border border-gray-200"
+          aria-label="Open menu"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
 
-          {/* Navigation Links */}
-          <div className="hidden md:flex space-x-8">
-            {navigationItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'text-gray-900 border-b-2 border-gray-900'
-                      : 'text-gray-600 hover:text-gray-900 hover:border-b-2 hover:border-gray-300'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
+      {/* Mobile backdrop */}
+      {sidebarOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <Link 
+                href="/" 
+                className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+                onClick={() => setSidebarOpen(false)}
+              >
+                OM76 Photography
+              </Link>
+              
+              {/* Close button for mobile */}
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="lg:hidden p-1 text-gray-400 hover:text-gray-600"
+                aria-label="Close menu"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <MobileMenu />
+          {/* Navigation Links */}
+          <nav className="flex-1 p-4">
+            <ul className="space-y-2">
+              {navigationItems.map((item) => (
+                <NavigationItem 
+                  key={item.name} 
+                  item={item} 
+                  onItemClick={() => setSidebarOpen(false)}
+                />
+              ))}
+            </ul>
+          </nav>
+
+          {/* Footer */}
+          <div className="p-4 border-t border-gray-200">
+            <p className="text-xs text-gray-500 text-center">
+              © 2024 OM76 Photography
+            </p>
           </div>
         </div>
       </div>
-    </nav>
+    </>
   );
 }
 
-function MobileMenu() {
-  const [isOpen, setIsOpen] = useState(false);
+function NavigationItem({ item, onItemClick }: { 
+  item: { name: string; href: string }; 
+  onItemClick: () => void;
+}) {
   const pathname = usePathname();
+  const isActive = pathname === item.href;
 
   return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-gray-600 hover:text-gray-900"
-        aria-label="Toggle menu"
+    <li>
+      <Link
+        href={item.href}
+        onClick={onItemClick}
+        className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+          isActive
+            ? 'bg-gray-100 text-gray-900 border-l-4 border-gray-900'
+            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+        }`}
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-25 z-40"
-            onClick={() => setIsOpen(false)}
-          />
-          
-          {/* Menu */}
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-            <div className="py-2">
-              {navigationItems.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-2 text-sm transition-colors ${
-                      isActive
-                        ? 'text-gray-900 bg-gray-50 font-medium'
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+        {item.name}
+      </Link>
+    </li>
   );
 }
 
