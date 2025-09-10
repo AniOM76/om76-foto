@@ -1,0 +1,60 @@
+/* Image protection styles */
+
+/* Disable image selection and dragging */
+img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  
+  pointer-events: auto;
+}
+
+/* Disable selection on image containers */
+.gallery-image,
+.lightbox-image {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Disable print screen detection overlay (visual deterrent) */
+@media print {
+  body {
+    display: none !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Disable highlighting and selection for protective elements */
+.image-container::selection {
+  background: transparent;
+}
+
+.image-container::-moz-selection {
+  background: transparent;
+}
+
+/* Add subtle watermark effect (optional overlay) */
+.watermark-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 2rem;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}

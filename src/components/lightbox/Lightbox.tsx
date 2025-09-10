@@ -201,7 +201,7 @@ export default function Lightbox({
                   alt={currentPhoto.alt}
                   width={currentPhoto.width}
                   height={currentPhoto.height}
-                  className="max-w-full max-h-[90vh] w-auto h-auto object-contain"
+                  className="max-w-full max-h-[90vh] w-auto h-auto object-contain select-none"
                   onLoad={() => setIsLoading(false)}
                   onError={() => {
                     if (!imageError) {
@@ -211,6 +211,8 @@ export default function Lightbox({
                       setIsLoading(false);
                     }
                   }}
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
                   priority
                 />
               </div>

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import '@/styles/image-protection.css';
 import { AuthProvider } from '@/components/auth/AuthProvider';
-import ProtectedContent from '@/components/auth/ProtectedContent';
+import ProtectedContent from '@/components/auth/ProtectedContent';\nimport ProtectionOverlay from '@/components/ui/ProtectionOverlay';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -17,6 +18,23 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: '600D Photography Portfolio',
   description: 'Professional photography portfolio by 600D Photography',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'none',
+      'max-snippet': -1,
+    },
+  },
+  referrer: 'no-referrer',
+  other: {
+    'X-Frame-Options': 'DENY',
+    'X-Content-Type-Options': 'nosniff',
+    'X-XSS-Protection': '1; mode=block',
+  }
 };
 
 export default function RootLayout({
@@ -29,6 +47,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ProtectionOverlay />
         <AuthProvider>
           <ProtectedContent>
             {children}
