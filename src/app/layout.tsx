@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import '@/styles/image-protection.css';
 import { AuthProvider } from '@/components/auth/AuthProvider';
-import ProtectedContent from '@/components/auth/ProtectedContent';\nimport ProtectionOverlay from '@/components/ui/ProtectionOverlay';
+import ProtectedContent from '@/components/auth/ProtectedContent';
+import ProtectionOverlay from '@/components/ui/ProtectionOverlay';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
