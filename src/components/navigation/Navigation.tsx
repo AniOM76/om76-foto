@@ -8,6 +8,7 @@ const navigationItems = [
   { name: 'Gallery', href: '/' },
   { name: 'Portraits', href: '/portraits' },
   { name: 'Beyond 2025', href: '/beyond-2025' },
+  { name: 'Alvord 2025', href: '/alvord-2025' },
   { name: 'Drone', href: '/drone' },
   { name: 'Misc.', href: '/misc' },
 ];

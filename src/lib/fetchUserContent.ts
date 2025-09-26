@@ -95,7 +95,8 @@ export async function fetchContentByCategory(category: string): Promise<{
       // Map URL-friendly names to folder names
       const folderMap: { [key: string]: string } = {
         'portraits': 'portraits',
-        'beyond-2025': 'beyond-2025', 
+        'beyond-2025': 'beyond-2025',
+        'alvord-2025': 'Alvord-2025',
         'drone': 'drone',
         'misc': 'misc'
       };
