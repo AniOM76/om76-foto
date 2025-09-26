@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import PhotoGallery from './PhotoGallery';
 import Navigation from '@/components/navigation/Navigation';
-import { createGalleryPhoto, buildVideoUrl } from '@/lib/cloudinaryClient';
+import { createGalleryPhoto, buildVideoUrl, buildImageUrl } from '@/lib/cloudinaryClient';
 import type { PhotoData, GalleryPhoto } from '@/types/image';
 import type { VideoData } from '@/types/cloudinary';
 
@@ -76,15 +76,28 @@ export default function GalleryPage({ category }: GalleryPageProps) {
                     className="w-full h-48 object-cover"
                     controls
                     preload="metadata"
-                    poster={`https://res.cloudinary.com/dour8cpte/image/upload/w_400,h_300,c_fill,f_jpg/v1/${video.publicId}.jpg`}
+                    poster={buildImageUrl(video.publicId, {
+                      width: 400,
+                      height: 300,
+                      crop: 'fill',
+                      format: 'jpg'
+                    })}
                   >
                     <source
-                      src={buildVideoUrl(video.publicId, { 
-                        width: 800, 
-                        quality: 'auto', 
-                        format: 'mp4' 
+                      src={buildVideoUrl(video.publicId, {
+                        width: 800,
+                        quality: 'auto',
+                        format: 'mp4'
                       })}
                       type="video/mp4"
+                    />
+                    <source
+                      src={buildVideoUrl(video.publicId, {
+                        width: 800,
+                        quality: 'auto',
+                        format: 'webm'
+                      })}
+                      type="video/webm"
                     />
                     Your browser does not support the video tag.
                   </video>
