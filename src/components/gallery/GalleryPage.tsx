@@ -85,7 +85,7 @@ export default function GalleryPage({ category }: GalleryPageProps) {
                   >
                     <source
                       src={buildVideoUrl(video.publicId, {
-                        width: 800,
+                        width: 3840,
                         quality: 'auto',
                         format: 'mp4'
                       })}
@@ -93,7 +93,7 @@ export default function GalleryPage({ category }: GalleryPageProps) {
                     />
                     <source
                       src={buildVideoUrl(video.publicId, {
-                        width: 800,
+                        width: 3840,
                         quality: 'auto',
                         format: 'webm'
                       })}
