@@ -1,7 +1,5 @@
-import GalleryPage from '@/components/gallery/GalleryPage';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <GalleryPage />
-  );
+  redirect('/photos');
 }

@@ -1,23 +1,14 @@
 import { NextResponse } from 'next/server';
-import { fetchAllUserContent, fetchContentByCategory } from '@/lib/fetchUserContent';
+import { fetchPhotosFromFolder } from '@/lib/cloudinary';
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const category = searchParams.get('category');
-
-    let content;
-    if (category) {
-      content = await fetchContentByCategory(category);
-    } else {
-      content = await fetchAllUserContent();
-    }
-
-    return NextResponse.json(content);
+    const photos = await fetchPhotosFromFolder('photos');
+    return NextResponse.json({ photos });
   } catch (error) {
-    console.error('API Error:', error);
+    console.error('Cloudinary API Error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch photos from Cloudinary', photos: [], videos: [] },
+      { error: 'Failed to fetch photos from Cloudinary', photos: [] },
       { status: 500 }
     );
   }

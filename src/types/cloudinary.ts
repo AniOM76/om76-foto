@@ -33,17 +33,3 @@ export interface CloudinarySearchResult {
   time: number;
   next_cursor?: string;
 }
-
-export interface VideoData {
-  publicId: string;
-  title: string;
-  description: string;
-  category: string;
-  tags: string[];
-  width: number;
-  height: number;
-  duration: number;
-  aspectRatio: number;
-  createdAt: string;
-  format: string;
-}
