@@ -2,15 +2,9 @@
 
 export const env = {
   cloudinary: {
-    // Client-side accessible
     cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!,
-    // Server-side only
     apiKey: process.env.CLOUDINARY_API_KEY!,
     apiSecret: process.env.CLOUDINARY_API_SECRET!,
-  },
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-  analytics: {
-    gaId: process.env.NEXT_PUBLIC_GA_ID,
   },
 } as const;
 
